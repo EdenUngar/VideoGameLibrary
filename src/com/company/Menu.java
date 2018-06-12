@@ -28,17 +28,25 @@ public class Menu {
                     library.addGame();
                     break;
                 case 2:
-                    input.nextLine();
+//                    library.removeGame(input.nextInt() - 1);
+                    System.out.println("Which number would you like to remove? ");
+                    library.listGamesInLibrary("forRemoval");
+                    library.removeGame(input.nextInt() - 1);
                     //remove game from library
-                    library.removeGame();
                     break;
                 case 3:
                     input.nextLine();
                     //view available games
-                    library.listGamesInLibrary();
+                    library.listGamesInLibrary("inLibrary");
                     break;
                 case 4:
+                    input.nextLine();
                     //check out a game
+                    System.out.println("You have chosen to check out a game." +
+                            "\nHere is a list of all games available to check out:");
+                    library.listGamesInLibrary("checkOut");
+                    System.out.println("Choose the number for the fame you would like: ");
+                    library.checkOutGame(input.nextInt()-1);
                     break;
                 case 5:
                     //check in a game
@@ -61,6 +69,10 @@ public class Menu {
             //handle non int invalid inputs (prompt user and loop to menu)
             input.nextLine();
             System.out.println("Not a valid entry. Please enter a number between 1 and 7. ");
+            startMenu();
+        } catch (IndexOutOfBoundsException ioobe){
+            input.nextLine();
+            System.out.println("You have not entered a correct number. Taking you back to the main menu. ");
             startMenu();
         }
 

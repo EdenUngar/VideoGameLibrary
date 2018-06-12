@@ -1,6 +1,8 @@
 package com.company;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,6 +10,8 @@ public class Library {
 
     private Scanner input = new Scanner(System.in);
     private List<Game> gamesLibrary = new ArrayList<Game>();
+    private List<Game> checkedOutGames = new ArrayList<Game>();
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
     private Menu menu;
 
 
@@ -16,6 +20,7 @@ public class Library {
     }
 
 
+    //add
     public void addGame() {
 
 
@@ -25,6 +30,7 @@ public class Library {
         String type = input.nextLine();
         System.out.println("What is the ID number of your game? ");
         int idNumber = input.nextInt();
+        input.nextLine();
 
         Game game = new Game(title, type, idNumber);
         gamesLibrary.add(game);
@@ -35,36 +41,59 @@ public class Library {
 
     }
 
-    public void listGamesInLibrary() {
+    //remove
+    public void removeGame(int index) {
 
-        int index = 1;
-        for (Game inLibrary : gamesLibrary) {
-            System.out.println(index++ + ": "+ inLibrary.getTitle() +"\n");
-        }
+        gamesLibrary.remove(index);
+        System.out.println("This game has been removed from your library. ");
 
-        //go back to start menu
+        //bring back to start
         menu.startMenu();
-
     }
 
-    public void removeGame(){
 
-        System.out.println("What game would you like to remove from your library? ");
+    //view
+    public void listGamesInLibrary(String location) {
 
-//        for (int i = 0; i < gamesLibrary.size(); i++) {
-//            System.out.println((i + 1) + " " + gamesLibrary.get(i));
-//        }
-
-        int numberToRemove = input.nextInt() - 1;
-        if (numberToRemove >= gamesLibrary.size() || numberToRemove < 0) {
-            System.out.println("That is not a valid number");
+        if (gamesLibrary.isEmpty()) {
+            System.out.println("There are no games in your library. ");
+            menu.startMenu();
         } else {
-            gamesLibrary.remove(numberToRemove);
+            int index = 1;
+            for (Game inLibrary : gamesLibrary) {
+                System.out.println(index++ + ": " + inLibrary.getTitle());
+            }
+            if (location.equals("inLibrary")) {
+                menu.startMenu();
+            }
         }
-        System.out.println("You have removed the game from the Video Game Library. ");
-
-        menu.startMenu();
 
     }
+
+    //check out
+    public void checkOutGame(int index) {
+
+        if (gamesLibrary.isEmpty()){
+            System.out.println("There are no games in your library. Add games to be able to check out. ");
+            menu.startMenu();
+        } else {
+            //placeholder for game taken out of array list
+            Game game = gamesLibrary.get(index);
+
+            //create an instance of a calender object
+            Calendar calendar = Calendar.getInstance();
+            //add 7 days to the current date
+            calendar.add(Calendar.DAY_OF_YEAR, 7);
+            //uses the line above to set a due date in the future to a variable
+            String dueDate = dateFormat.format(calendar.getTime());
+            //tell user what their due date is
+            System.out.println(game.getTitle() + " is due on " + dueDate);
+            //set due date for this game 
+            game.setDueDate(dueDate);
+        }
+
+
+    }
+
 
 }
