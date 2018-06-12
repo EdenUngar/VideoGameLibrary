@@ -28,7 +28,6 @@ public class Menu {
                     library.addGame();
                     break;
                 case 2:
-//                    library.removeGame(input.nextInt() - 1);
                     System.out.println("Which number would you like to remove? ");
                     library.listGamesInLibrary("forRemoval");
                     library.removeGame(input.nextInt() - 1);
@@ -45,14 +44,20 @@ public class Menu {
                     System.out.println("You have chosen to check out a game." +
                             "\nHere is a list of all games available to check out:");
                     library.listGamesInLibrary("checkOut");
-                    System.out.println("Choose the number for the fame you would like: ");
+                    System.out.println("Choose the number for the game you would like: ");
                     library.checkOutGame(input.nextInt()-1);
                     break;
                 case 5:
+                    input.nextLine();
                     //check in a game
+                    System.out.println("What game are you checking in? ");
+                    //list checked out games
+                    library.listCheckedOut("checkIn");
+                    library.checkInGame(input.nextInt() - 1);
                     break;
                 case 6:
                     //view checked out games
+                    library.listCheckedOut("viewCheckedOut");
                     break;
                 case 7:
                     System.out.println("Thank you for using the Video Game Library");
